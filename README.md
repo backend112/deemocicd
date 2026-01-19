@@ -2,6 +2,10 @@
 
 A simple Node.js Express application with a complete CI/CD pipeline using GitHub Actions.
 
+## Testing Workflow
+
+This section was added to test the GitHub Actions workflow on a feature branch.
+
 ## Features
 
 - **Express.js API** - Simple REST API with health checks and greeting endpoints
