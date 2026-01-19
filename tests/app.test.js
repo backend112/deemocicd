@@ -31,4 +31,38 @@ describe('Express App', () => {
       expect(res.body.error).toBe('Name is required');
     });
   });
+
+  describe('GET /api/users', () => {
+    it('should return list of users', async () => {
+      const res = await request(app).get('/api/users');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.message).toContain('Users endpoint');
+      expect(Array.isArray(res.body.users)).toBe(true);
+      expect(res.body.users).toHaveLength(2);
+    });
+  });
+
+  describe('POST /api/users', () => {
+    it('should create a new user', async () => {
+      const userData = { name: 'Alice Johnson', email: 'alice@example.com' };
+      const res = await request(app).post('/api/users').send(userData);
+      expect(res.statusCode).toBe(201);
+      expect(res.body.message).toContain('created successfully');
+      expect(res.body.user).toHaveProperty('id');
+      expect(res.body.user.name).toBe(userData.name);
+      expect(res.body.user.email).toBe(userData.email);
+    });
+
+    it('should return 400 if name is missing', async () => {
+      const res = await request(app).post('/api/users').send({ email: 'test@example.com' });
+      expect(res.statusCode).toBe(400);
+      expect(res.body.error).toContain('required');
+    });
+
+    it('should return 400 if email is missing', async () => {
+      const res = await request(app).post('/api/users').send({ name: 'Test User' });
+      expect(res.statusCode).toBe(400);
+      expect(res.body.error).toContain('required');
+    });
+  });
 });
