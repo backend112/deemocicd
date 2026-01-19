@@ -14,6 +14,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// User routes
+const userRoutes = require('./routes/users');
+app.use('/api', userRoutes);
+
 app.post('/api/greet', (req, res) => {
   const { name } = req.body;
   if (!name) {
